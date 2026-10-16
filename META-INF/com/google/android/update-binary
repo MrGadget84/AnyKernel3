@@ -551,7 +551,7 @@ if [ -f version ]; then
   ui_printfile version;
   ui_print " ";
 fi;
-ui_print " " "AnyKernel3 by osm0sis @ xda-developers" " ";
+ui_print " " "White Kernel Project Setup:" " ";
 grep -oE 'AK_BASE.*' META-INF/com/google/android/updater-script >&2;
 ui_print " ";
 
@@ -563,6 +563,9 @@ do_levelcheck;
 do_vendorlevelcheck;
 
 ui_print "Installing...";
+# hack to maintain support for anykernel.sh files that weren't updated correctly along with the AK core
+CORE=$(grep -oE 'ak.*core.sh' anykernel.sh);
+[ -f tools/$CORE ] || ln -s $AKHOME/tools/ak*-core.sh $AKHOME/tools/$CORE;
 ash anykernel.sh;
 if [ $? != 0 ]; then
   abort;
@@ -578,6 +581,6 @@ if [ "$(file_getprop anykernel.sh do.cleanup)" == 1 ]; then
   cleanup;
 fi;
 
-ui_print " " "Done!";
+ui_print " " "White Kernel Project Setup Finished!";
 export PATH="$OLD_PATH";
 unset OLD_PATH OUTFD ZIPFILE;
